@@ -19,7 +19,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-public class PoseidonsTridentEntity extends TridentEntity{
+public class PoseidonsTridentEntity extends TridentEntity {
+
+
     private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(PoseidonsTridentEntity.class, TrackedDataHandlerRegistry.BYTE);
     private boolean customDealtDamage = false;
 

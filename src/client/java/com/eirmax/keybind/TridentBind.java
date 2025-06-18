@@ -1,5 +1,6 @@
 package com.eirmax.keybind;
 
+import com.eirmax.item.ModItems;
 import com.eirmax.packet.PoseidonStrikePacket;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -12,7 +13,7 @@ public class TridentBind implements ClientModInitializer {
                 while (TridentKeyBind.trident_key.wasPressed()) {
                     if (client.player != null) {
                         ItemStack held = client.player.getMainHandStack();
-                        if (held.getItem() == ModItems.POSEIDON_TRIDENT) {
+                        if (held.getItem() == ModItems.POSEIDONSTRIDENT) {
                             PoseidonStrikePacket.send();
                         }
                     }

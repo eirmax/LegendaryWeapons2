@@ -1,6 +1,7 @@
 package com.eirmax.packet;
 
 import com.eirmax.LegendaryWeapons2;
+import com.eirmax.item.ModItems;
 import com.eirmax.item.PoseidonsTrident;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -16,7 +17,7 @@ public class PoseidonStrikePacket {
     public static void registerReceiver() {
         ServerPlayNetworking.registerGlobalReceiver(ID, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
-                if (player.getMainHandStack().getItem() == ModItems.POSEIDON_TRIDENT) {
+                if (player.getMainHandStack().getItem() == ModItems.POSEIDONSTRIDENT) {
                     PoseidonsTrident.strikeLightningAOE(player);
                 }
             });
