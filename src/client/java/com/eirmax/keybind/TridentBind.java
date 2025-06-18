@@ -1,0 +1,22 @@
+package com.eirmax.keybind;
+
+import com.eirmax.packet.PoseidonStrikePacket;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.item.ItemStack;
+
+public class TridentBind implements ClientModInitializer {
+        @Override
+        public void onInitializeClient() {
+            ClientTickEvents.END_CLIENT_TICK.register(client -> {
+                while (TridentKeyBind.trident_key.wasPressed()) {
+                    if (client.player != null) {
+                        ItemStack held = client.player.getMainHandStack();
+                        if (held.getItem() == ModItems.POSEIDON_TRIDENT) {
+                            PoseidonStrikePacket.send();
+                        }
+                    }
+                }
+            });
+        }
+}
