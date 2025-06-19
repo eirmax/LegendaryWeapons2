@@ -11,6 +11,7 @@ public class ModItems {
 
 
     public static final Item POSEIDONSTRIDENT = registerItem("poseidonstrident", new PoseidonsTrident(new Item.Settings().maxCount(1)));
+    public static final Item SWORDOFWARDEN = registerItem("sword_of_warden", new SwordOfWarden(new Item.Settings().maxCount(1)));
 
 
 

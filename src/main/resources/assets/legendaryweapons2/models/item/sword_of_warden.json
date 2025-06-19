@@ -1,0 +1,9 @@
+{
+  "parent": "legendaryweapons2:custom/mieieieiech",
+  "textures": {
+    "1": "legendaryweapons2:block/lezviemecha",
+    "3": "legendaryweapons2:block/roga",
+    "5": "legendaryweapons2:block/palka",
+    "particle": "legendaryweapons2:block/roga"
+  }
+}

@@ -14,6 +14,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
+
 public class PoseidonsTrident extends TridentItem {
 
     public static final int STRIKE_RADIUS = 10;

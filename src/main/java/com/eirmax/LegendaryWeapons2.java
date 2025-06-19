@@ -1,6 +1,8 @@
 package com.eirmax;
 
+import com.eirmax.item.ModItems;
 import com.eirmax.packet.PoseidonStrikePacket;
+import com.eirmax.utils.SwordOfWardenHandler;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -15,6 +17,8 @@ public class LegendaryWeapons2 implements ModInitializer {
 	public void onInitialize() {
 
 
+		ModItems.registerModItems();
 		PoseidonStrikePacket.registerReceiver();
+		SwordOfWardenHandler.init();
 	}
 }
