@@ -1,10 +1,14 @@
 package com.eirmax.item;
 
 import com.eirmax.components.PlayerEntityMixinAccessor;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TridentItem;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -29,20 +33,20 @@ public class PoseidonsTrident extends TridentItem {
         if (player.getItemCooldownManager().isCoolingDown(held.getItem())) return;
         player.getItemCooldownManager().set(held.getItem(), STRIKE_COOLDOWN_TICKS);
 
-        var world = (net.minecraft.server.world.ServerWorld) player.getWorld();
+        var world = (ServerWorld) player.getWorld();
         var box = new net.minecraft.util.math.Box(
                 player.getX() - STRIKE_RADIUS, player.getY() - STRIKE_RADIUS, player.getZ() - STRIKE_RADIUS,
                 player.getX() + STRIKE_RADIUS, player.getY() + STRIKE_RADIUS, player.getZ() + STRIKE_RADIUS
         );
 
         for (var entity : world.getOtherEntities(player, box, e -> e instanceof LivingEntity && e.isAlive())) {
-            var bolt = net.minecraft.entity.EntityType.LIGHTNING_BOLT.create(world);
+            var bolt = EntityType.LIGHTNING_BOLT.create(world);
             if (bolt != null) {
                 bolt.refreshPositionAfterTeleport(entity.getX(), entity.getY(), entity.getZ());
                 world.spawnEntity(bolt);
             }
         }
-        world.playSound(null, player.getBlockPos(), net.minecraft.sound.SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT, net.minecraft.sound.SoundCategory.WEATHER, 5.0F, 1.0F);
+        world.playSound(null, player.getBlockPos(), SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT, SoundCategory.WEATHER, 5.0F, 1.0F);
     }
 
     @Override

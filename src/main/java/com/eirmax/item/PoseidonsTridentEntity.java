@@ -1,5 +1,6 @@
 package com.eirmax.item;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
@@ -13,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
@@ -46,7 +48,7 @@ public class PoseidonsTridentEntity extends TridentEntity {
 
         float damage = 8.0F;
         if (entity instanceof LivingEntity living) {
-            damage += net.minecraft.enchantment.EnchantmentHelper.getAttackDamage(this.asItemStack(), living.getGroup());
+            damage += EnchantmentHelper.getAttackDamage(this.asItemStack(), living.getGroup());
         }
         DamageSource source = world.getDamageSources().trident(this, owner != null ? owner : this);
         entity.damage(source, damage);
@@ -55,16 +57,16 @@ public class PoseidonsTridentEntity extends TridentEntity {
             Random random = serverWorld.getRandom();
             int count = random.nextFloat() < 0.5f ? 3 : 1;
             for (int i = 0; i < count; i++) {
-                LightningEntity lightning = net.minecraft.entity.EntityType.LIGHTNING_BOLT.create(serverWorld);
+                LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(serverWorld);
                 if (lightning != null) {
                     lightning.refreshPositionAfterTeleport(entity.getX(), entity.getY(), entity.getZ());
                     serverWorld.spawnEntity(lightning);
                 }
             }
-            world.playSound(null, entity.getBlockPos(), net.minecraft.sound.SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT, net.minecraft.sound.SoundCategory.WEATHER, 5.0F, 1.0F);
+            world.playSound(null, entity.getBlockPos(), SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT,  SoundCategory.WEATHER, 5.0F, 1.0F);
         }
         this.setVelocity(this.getVelocity().multiply(-0.01, -0.1, -0.01));
-        this.playSound(net.minecraft.sound.SoundEvents.ITEM_TRIDENT_HIT, 1.0F, 1.0F);
+        this.playSound(SoundEvents.ITEM_TRIDENT_HIT, 1.0F, 1.0F);
     }
 
 

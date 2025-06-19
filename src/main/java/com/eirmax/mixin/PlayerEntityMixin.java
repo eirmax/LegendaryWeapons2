@@ -1,6 +1,7 @@
 package com.eirmax.mixin;
 
 import com.eirmax.components.PlayerEntityMixinAccessor;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -34,7 +35,7 @@ public abstract class PlayerEntityMixin implements PlayerEntityMixinAccessor {
     }
 
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
-    private void ignoreFallDamage(float fallDistance, float damageMultiplier, net.minecraft.entity.damage.DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    private void ignoreFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         if (fabric$getIgnoreFallDamage()) {
             cir.setReturnValue(false);
