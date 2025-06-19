@@ -11,6 +11,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
 public class PoseidonsTrident extends TridentItem {
@@ -34,7 +35,7 @@ public class PoseidonsTrident extends TridentItem {
         player.getItemCooldownManager().set(held.getItem(), STRIKE_COOLDOWN_TICKS);
 
         var world = (ServerWorld) player.getWorld();
-        var box = new net.minecraft.util.math.Box(
+        var box = new Box(
                 player.getX() - STRIKE_RADIUS, player.getY() - STRIKE_RADIUS, player.getZ() - STRIKE_RADIUS,
                 player.getX() + STRIKE_RADIUS, player.getY() + STRIKE_RADIUS, player.getZ() + STRIKE_RADIUS
         );

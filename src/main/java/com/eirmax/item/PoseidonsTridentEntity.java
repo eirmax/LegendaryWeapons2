@@ -46,7 +46,7 @@ public class PoseidonsTridentEntity extends TridentEntity {
         Entity owner = this.getOwner();
         World world = this.getWorld();
 
-        float damage = 8.0F;
+        float damage = 9.0F;
         if (entity instanceof LivingEntity living) {
             damage += EnchantmentHelper.getAttackDamage(this.asItemStack(), living.getGroup());
         }
