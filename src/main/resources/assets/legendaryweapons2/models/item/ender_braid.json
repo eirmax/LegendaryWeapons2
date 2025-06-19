@@ -1,0 +1,12 @@
+{
+  "parent": "legendaryweapons2:custom/ender_braid_model",
+  "textures": {
+    "0": "legendaryweapons2:block/e6c669add08d51",
+    "2": "legendaryweapons2:block/enderpalka",
+    "4": "legendaryweapons2:block/blade",
+    "5": "legendaryweapons2:block/top",
+    "6": "legendaryweapons2:block/niz",
+    "7": "legendaryweapons2:block/stylus",
+    "particle": "legendaryweapons2:item/enderpalka"
+  }
+}

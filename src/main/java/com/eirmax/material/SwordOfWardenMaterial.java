@@ -1,5 +1,6 @@
 package com.eirmax.material;
 
+
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
@@ -11,17 +12,17 @@ public class SwordOfWardenMaterial implements ToolMaterial {
 
     @Override
     public float getMiningSpeedMultiplier() {
-        return 9.0f;
+        return 4.0f;
     }
 
     @Override
     public float getAttackDamage() {
-        return 9.0f;
+        return 9.5f;
     }
 
     @Override
     public int getMiningLevel() {
-        return 0;
+        return 4;
     }
 
     @Override
