@@ -21,6 +21,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -58,8 +59,6 @@ public class SwordOfWarden extends SwordItem{
 
 
 
-
-
     public static void onPlayerTick(ServerPlayerEntity player) {
         boolean hasSword = hasShadowSword(player);
 
@@ -75,6 +74,7 @@ public class SwordOfWarden extends SwordItem{
             removeHighlightFor(player, GLOW_RADIUS);
         }
     }
+
 
 
     public static void removeHighlightFor(PlayerEntity viewer, double radius) {
@@ -97,6 +97,7 @@ public class SwordOfWarden extends SwordItem{
         }
         return TypedActionResult.success(user.getStackInHand(hand), world.isClient());
     }
+
 
     public void shootSonicBoomLine(ServerWorld world, PlayerEntity user) {
         Vec3d start = user.getEyePos();
@@ -131,6 +132,7 @@ public class SwordOfWarden extends SwordItem{
         return false;
     }
 
+
     public static void highlightPlayersFor(PlayerEntity viewer, double radius) {
         if (!(viewer.getWorld() instanceof net.minecraft.server.world.ServerWorld world)) return;
         Box box = new Box(
@@ -154,7 +156,8 @@ public class SwordOfWarden extends SwordItem{
     }
 
 
-    private static final Map<UUID, Boolean> vanished = new java.util.HashMap<>();
+    private static final Map<UUID, Boolean> vanished = new HashMap<>();
+
 
 
     public static void setVanished(ServerPlayerEntity self, boolean vanish) {
