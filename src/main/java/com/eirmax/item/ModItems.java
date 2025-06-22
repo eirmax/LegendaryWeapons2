@@ -1,6 +1,8 @@
 package com.eirmax.item;
 
 import com.eirmax.LegendaryWeapons2;
+import com.eirmax.item.cutom.PoseidonsTrident;
+import com.eirmax.item.cutom.SwordOfWarden;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;

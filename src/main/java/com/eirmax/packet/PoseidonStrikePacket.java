@@ -2,7 +2,7 @@ package com.eirmax.packet;
 
 import com.eirmax.LegendaryWeapons2;
 import com.eirmax.item.ModItems;
-import com.eirmax.item.PoseidonsTrident;
+import com.eirmax.item.cutom.PoseidonsTrident;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Identifier;
 

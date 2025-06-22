@@ -1,4 +1,4 @@
-package com.eirmax.item;
+package com.eirmax.item.cutom;
 
 import com.eirmax.material.SwordOfWardenMaterial;
 import net.minecraft.entity.LivingEntity;

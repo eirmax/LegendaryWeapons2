@@ -1,4 +1,4 @@
-package com.eirmax.item;
+package com.eirmax.entity;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
