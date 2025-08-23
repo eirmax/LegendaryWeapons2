@@ -1,0 +1,7 @@
+{
+  "parent": "legendaryweapons2:custom/dragon_katana",
+  "textures": {
+    "3": "legendaryweapons2:block/dragon_katana",
+    "particle": "legendaryweapons2:item/dragon_katana"
+  }
+}
