@@ -1,6 +1,7 @@
 package com.eirmax.item.custom;
 
 import com.eirmax.material.SwordOfWardenTier;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -8,23 +9,20 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.network.packet.s2c.play.EntitiesDestroyS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerSpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 
 public class SwordOfWarden extends SwordItem{
@@ -38,7 +36,7 @@ public class SwordOfWarden extends SwordItem{
     public static final int ENCHANTABILITY = 15;
     public static final int SONIC_RANGE = 100;
     public static final int GLOW_RADIUS = 200;
-    public static final int EFFECT_DURATION = 20 * 20; // 20 сек
+    public static final int EFFECT_DURATION = 20 * 20;
     public static final int SLOWNESS_LEVEL = 2;
     public static final float BOOM_DAMAGE = 11.0f;
     public static final float BOOM_EXPLOSION = 2.0f;
@@ -179,6 +177,19 @@ public class SwordOfWarden extends SwordItem{
         }
     }
 
+
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+
+        tooltip.add(Text.literal("В прошлом простой алмазный меч пронзивший Вардена много веков назад...").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal("При использовании: выстреливает потоком звука в противника").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal("При ударе по противнику оглушает его").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal("При зажатой клавиши SHIFT подсвечивает игроков поблизости и ").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal("делает невидимым владельца меча").formatted(Formatting.GRAY));
+    }
+
+
     public static void removeHighlightFor(PlayerEntity viewer, double radius) {
         if (!(viewer.getWorld() instanceof ServerWorld world)) return;
 
@@ -193,53 +204,22 @@ public class SwordOfWarden extends SwordItem{
             setGlowingForViewerOnly(viewer, other, false);
         }
     }
-    public static void setGlowingFor(PlayerEntity viewer, LivingEntity target, boolean glowing) {
-        target.setGlowing(glowing);
-        if (viewer instanceof ServerPlayerEntity serverPlayer) {
-            serverPlayer.networkHandler.sendPacket(
-                    new EntityTrackerUpdateS2CPacket(target.getId(), target.getDataTracker().getChangedEntries())
-            );
-        }
-    }
 
 
-    private static final Map<UUID, Boolean> vanished = new HashMap<>();
-
-
-
-    public static void setVanished(ServerPlayerEntity self, boolean vanish) {
-        boolean prev = vanished.getOrDefault(self.getUuid(), false);
-        if (prev == vanish) return;
-        vanished.put(self.getUuid(), vanish);
-        ServerWorld world = self.getServerWorld();
-        for (PlayerEntity other : world.getPlayers()) {
-            if (other == self) continue;
-            if (vanish) {
-                ((ServerPlayerEntity)other).networkHandler.sendPacket(
-                        new EntitiesDestroyS2CPacket(self.getId())
-                );
-            } else {
-                ((ServerPlayerEntity)other).networkHandler.sendPacket(
-                        new PlayerSpawnS2CPacket(self)
-                );
-            }
-        }
-    }
-
-    private LivingEntity findTarget(PlayerEntity user, double radius) {
-        World w = user.getWorld();
-        return w.getEntitiesByClass(LivingEntity.class, user.getBoundingBox().expand(radius),
-                        e -> e != user && e.isAlive() && !(e instanceof PlayerEntity && ((PlayerEntity) e).isSpectator()))
-                .stream().findFirst().orElse(null);
-    }
-
-    @Override
-    public boolean isFireproof() {
-        return true;
-    }
     @Override
     public int getEnchantability() {
         return ENCHANTABILITY;
+    }
+
+    @Override
+    public boolean hasGlint(ItemStack stack) {
+        return true;
+    }
+
+
+    @Override
+    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+        return false;
     }
 }
 
