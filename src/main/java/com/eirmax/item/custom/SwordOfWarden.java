@@ -1,6 +1,6 @@
-package com.eirmax.item.cutom;
+package com.eirmax.item.custom;
 
-import com.eirmax.material.SwordOfWardenMaterial;
+import com.eirmax.material.SwordOfWardenTier;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -32,9 +32,9 @@ public class SwordOfWarden extends SwordItem{
 
     //CONSTANTS
 
-
+    private static final int COOLDOWN_TICKS = 450;
     public static final int ATTACK_DAMAGE = 9;
-    public static final float ATTACK_SPEED = 0.7f;
+    public static final float ATTACK_SPEED = -2.7f;
     public static final int ENCHANTABILITY = 15;
     public static final int SONIC_RANGE = 100;
     public static final int GLOW_RADIUS = 200;
@@ -44,7 +44,7 @@ public class SwordOfWarden extends SwordItem{
     public static final float BOOM_EXPLOSION = 2.0f;
 
     public SwordOfWarden(Settings settings) {
-        super(new SwordOfWardenMaterial(), 0, ATTACK_SPEED, new Item.Settings().fireproof().maxCount(1));
+        super(new SwordOfWardenTier(), 0, ATTACK_SPEED, new Item.Settings().fireproof().maxCount(1));
     }
 
 
@@ -76,25 +76,15 @@ public class SwordOfWarden extends SwordItem{
     }
 
 
-
-    public static void removeHighlightFor(PlayerEntity viewer, double radius) {
-        if (!(viewer.getWorld() instanceof ServerWorld world)) return;
-        Box box = new Box(
-                viewer.getX() - radius, viewer.getY() - radius, viewer.getZ() - radius,
-                viewer.getX() + radius, viewer.getY() + radius, viewer.getZ() + radius
-        );
-        List<PlayerEntity> players = world.getEntitiesByClass(PlayerEntity.class, box, p -> p != viewer);
-        for (PlayerEntity other : players) {
-            other.setGlowing(false);
-        }
-    }
-
-
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient) {
             shootSonicBoomLine((ServerWorld) world, user);
         }
+        if (user.getItemCooldownManager().isCoolingDown(this)) {
+            return TypedActionResult.fail(user.getStackInHand(hand));
+        }
+        user.getItemCooldownManager().set(this, COOLDOWN_TICKS);
         return TypedActionResult.success(user.getStackInHand(hand), world.isClient());
     }
 
@@ -105,22 +95,45 @@ public class SwordOfWarden extends SwordItem{
         double step = 0.5;
         double maxDist = SONIC_RANGE;
         boolean hasHit = false;
+
         for (double d = 0; d < maxDist; d += step) {
             Vec3d pos = start.add(look.multiply(d));
             world.spawnParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0, 0, 0, 0.0);
             Box box = new Box(pos.subtract(0.5, 0.5, 0.5), pos.add(0.5, 0.5, 0.5));
             List<LivingEntity> hit = world.getEntitiesByClass(LivingEntity.class, box,
                     e -> e != user && e.isAlive() && !(e instanceof PlayerEntity p && p.isSpectator()));
+
             if (!hit.isEmpty()) {
                 LivingEntity target = hit.get(0);
+
                 target.damage(world.getDamageSources().sonicBoom(user), BOOM_DAMAGE);
+
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, EFFECT_DURATION, 0));
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, EFFECT_DURATION, SLOWNESS_LEVEL));
+
+
                 world.createExplosion(user, target.getX(), target.getY(), target.getZ(), BOOM_EXPLOSION, World.ExplosionSourceType.NONE);
+
+                Box explosionBox = new Box(
+                        target.getX() - BOOM_EXPLOSION, target.getY() - BOOM_EXPLOSION, target.getZ() - BOOM_EXPLOSION,
+                        target.getX() + BOOM_EXPLOSION, target.getY() + BOOM_EXPLOSION, target.getZ() + BOOM_EXPLOSION
+                );
+
+                List<LivingEntity> explosionTargets = world.getEntitiesByClass(LivingEntity.class, explosionBox,
+                        e -> e != user && e.isAlive() && !(e instanceof PlayerEntity p && p.isSpectator()));
+
+                for (LivingEntity explosionTarget : explosionTargets) {
+                    explosionTarget.damage(world.getDamageSources().explosion(user, user), 10.0f);
+
+                    explosionTarget.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, EFFECT_DURATION / 2, 0));
+                    explosionTarget.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, EFFECT_DURATION / 2, SLOWNESS_LEVEL - 1));
+                }
+
                 hasHit = true;
                 break;
             }
         }
+
         world.playSound(null, user.getBlockPos(), SoundEvents.ENTITY_WARDEN_SONIC_BOOM, user.getSoundCategory(), 2.0f, 1.0f);
     }
 
@@ -135,17 +148,51 @@ public class SwordOfWarden extends SwordItem{
 
     public static void highlightPlayersFor(PlayerEntity viewer, double radius) {
         if (!(viewer.getWorld() instanceof net.minecraft.server.world.ServerWorld world)) return;
+
         Box box = new Box(
                 viewer.getX() - radius, viewer.getY() - radius, viewer.getZ() - radius,
                 viewer.getX() + radius, viewer.getY() + radius, viewer.getZ() + radius
         );
+
         List<PlayerEntity> players = world.getEntitiesByClass(PlayerEntity.class, box, p -> p != viewer);
+
         for (PlayerEntity other : players) {
-            setGlowingFor(viewer, other, true);
+            setGlowingForViewerOnly(viewer, other, true);
         }
     }
 
+    public static void setGlowingForViewerOnly(PlayerEntity viewer, LivingEntity target, boolean glowing) {
+        if (viewer instanceof ServerPlayerEntity serverPlayer) {
 
+            serverPlayer.networkHandler.sendPacket(
+                    new EntityTrackerUpdateS2CPacket(target.getId(), target.getDataTracker().getChangedEntries())
+            );
+
+            boolean wasGlowing = target.isGlowing();
+            target.setGlowing(glowing);
+
+            serverPlayer.networkHandler.sendPacket(
+                    new EntityTrackerUpdateS2CPacket(target.getId(), target.getDataTracker().getChangedEntries())
+            );
+
+            target.setGlowing(wasGlowing);
+        }
+    }
+
+    public static void removeHighlightFor(PlayerEntity viewer, double radius) {
+        if (!(viewer.getWorld() instanceof ServerWorld world)) return;
+
+        Box box = new Box(
+                viewer.getX() - radius, viewer.getY() - radius, viewer.getZ() - radius,
+                viewer.getX() + radius, viewer.getY() + radius, viewer.getZ() + radius
+        );
+
+        List<PlayerEntity> players = world.getEntitiesByClass(PlayerEntity.class, box, p -> p != viewer);
+
+        for (PlayerEntity other : players) {
+            setGlowingForViewerOnly(viewer, other, false);
+        }
+    }
     public static void setGlowingFor(PlayerEntity viewer, LivingEntity target, boolean glowing) {
         target.setGlowing(glowing);
         if (viewer instanceof ServerPlayerEntity serverPlayer) {

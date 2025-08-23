@@ -4,7 +4,7 @@ package com.eirmax.material;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
-public class SwordOfWardenMaterial implements ToolMaterial {
+public class SwordOfWardenTier implements ToolMaterial {
     @Override
     public int getDurability() {
         return -1;
