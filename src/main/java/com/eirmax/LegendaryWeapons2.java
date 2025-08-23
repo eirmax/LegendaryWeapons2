@@ -1,8 +1,7 @@
 package com.eirmax;
 
+import com.eirmax.event.DragonKatanaEventHandler;
 import com.eirmax.item.ModItems;
-import com.eirmax.packet.PoseidonStrikePacket;
-import com.eirmax.packets.EnderBraidTickHandler;
 import com.eirmax.packets.SwordOfWardenHandler;
 import net.fabricmc.api.ModInitializer;
 
@@ -18,9 +17,9 @@ public class LegendaryWeapons2 implements ModInitializer {
 	public void onInitialize() {
 
 
+		DragonKatanaEventHandler.init();
 		ModItems.registerModItems();
-		PoseidonStrikePacket.registerReceiver();
 		SwordOfWardenHandler.init();
-		EnderBraidTickHandler.register();
+
 	}
 }
