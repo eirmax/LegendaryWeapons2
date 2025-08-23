@@ -13,7 +13,6 @@ public class ModItems {
 
     public static final Item DRAGONKATANA = registerItem("dragon_katana", new DragonKatana(new Item.Settings().maxCount(1)));
     public static final Item SWORDOFWARDEN = registerItem("sword_of_warden", new SwordOfWarden(new Item.Settings().maxCount(1)));
-    public static final Item ENDERBRAID = registerItem("ender_braid", new SwordOfWarden(new Item.Settings().maxCount(1)));
     public static final Item SWORDOFMIDAS = registerItem("midas_sword", new SwordOfMidas(new Item.Settings().maxCount(1)));
 
 

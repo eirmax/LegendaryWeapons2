@@ -1,8 +1,9 @@
 package com.eirmax;
 
 import com.eirmax.event.DragonKatanaEventHandler;
+import com.eirmax.event.SwordOfMidasEventHandler;
 import com.eirmax.item.ModItems;
-import com.eirmax.packets.SwordOfWardenHandler;
+import com.eirmax.event.SwordOfWardenEventHandler;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -19,7 +20,8 @@ public class LegendaryWeapons2 implements ModInitializer {
 
 		DragonKatanaEventHandler.init();
 		ModItems.registerModItems();
-		SwordOfWardenHandler.init();
+		SwordOfWardenEventHandler.init();
+		SwordOfMidasEventHandler.init();
 
 	}
 }
