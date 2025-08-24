@@ -36,7 +36,7 @@ public class SwordOfMidas extends SwordItem {
     private static final Map<UUID, Long> BURNING_PLAYERS = new HashMap<>();
 
     public SwordOfMidas(Settings settings) {
-        super(new SwordOfMidasTier(), 0, -2.4f, settings.fireproof());
+        super(new SwordOfMidasTier(), 0, -2.5f, settings.fireproof());
     }
 
     @Override

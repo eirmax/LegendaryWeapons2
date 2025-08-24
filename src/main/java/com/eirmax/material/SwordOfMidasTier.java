@@ -16,7 +16,7 @@ public class SwordOfMidasTier implements ToolMaterial {
 
     @Override
     public float getAttackDamage() {
-        return 9.0f;
+        return 11.0f;
     }
 
     @Override
