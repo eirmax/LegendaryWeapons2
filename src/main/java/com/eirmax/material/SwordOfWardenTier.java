@@ -27,7 +27,7 @@ public class SwordOfWardenTier implements ToolMaterial {
 
     @Override
     public int getEnchantability() {
-        return 15;
+        return 5;
     }
 
     @Override

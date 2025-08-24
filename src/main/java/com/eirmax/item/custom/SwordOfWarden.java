@@ -30,7 +30,7 @@ public class SwordOfWarden extends SwordItem{
 
     //CONSTANTS
 
-    private static final int COOLDOWN_TICKS = 450;
+    private static final int COOLDOWN_TICKS = 1000;
     public static final int ATTACK_DAMAGE = 9;
     public static final float ATTACK_SPEED = -2.6f;
     public static final int ENCHANTABILITY = 15;
@@ -38,24 +38,12 @@ public class SwordOfWarden extends SwordItem{
     public static final int GLOW_RADIUS = 200;
     public static final int EFFECT_DURATION = 20 * 20;
     public static final int SLOWNESS_LEVEL = 2;
-    public static final float BOOM_DAMAGE = 11.0f;
+    public static final float BOOM_DAMAGE = 2.0f;
     public static final float BOOM_EXPLOSION = 2.0f;
 
     public SwordOfWarden(Settings settings) {
         super(new SwordOfWardenTier(), 0, ATTACK_SPEED, new Item.Settings().fireproof().maxCount(1));
     }
-
-
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (attacker instanceof PlayerEntity) {
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, EFFECT_DURATION, 0));
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, EFFECT_DURATION, SLOWNESS_LEVEL));
-        }
-        return super.postHit(stack, target, attacker);
-    }
-
-
 
     public static void onPlayerTick(ServerPlayerEntity player) {
         boolean hasSword = hasShadowSword(player);
@@ -182,11 +170,11 @@ public class SwordOfWarden extends SwordItem{
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
 
-        tooltip.add(Text.literal("В прошлом простой алмазный меч пронзивший Вардена много веков назад...").formatted(Formatting.GRAY));
-        tooltip.add(Text.literal("При использовании: выстреливает потоком звука в противника").formatted(Formatting.GRAY));
-        tooltip.add(Text.literal("При ударе по противнику оглушает его").formatted(Formatting.GRAY));
-        tooltip.add(Text.literal("При зажатой клавиши SHIFT подсвечивает игроков поблизости и ").formatted(Formatting.GRAY));
-        tooltip.add(Text.literal("делает невидимым владельца меча").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal("В прошлом простой алмазный меч пронзивший Вардена много веков назад...").formatted(Formatting.GREEN));
+        tooltip.add(Text.literal("При использовании: выстреливает потоком звука в противника").formatted(Formatting.AQUA));
+        tooltip.add(Text.literal("При ударе по противнику оглушает его").formatted(Formatting.AQUA));
+        tooltip.add(Text.literal("При зажатой клавиши SHIFT подсвечивает игроков поблизости и ").formatted(Formatting.AQUA));
+        tooltip.add(Text.literal("делает невидимым владельца меча").formatted(Formatting.AQUA));
     }
 
 
