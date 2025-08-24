@@ -1,5 +1,6 @@
 package com.eirmax;
 
+import com.eirmax.creativetabs.CreativeTab;
 import com.eirmax.event.DragonKatanaEventHandler;
 import com.eirmax.event.SwordOfMidasEventHandler;
 import com.eirmax.item.ModItems;
@@ -22,6 +23,7 @@ public class LegendaryWeapons2 implements ModInitializer {
 		ModItems.registerModItems();
 		SwordOfWardenEventHandler.init();
 		SwordOfMidasEventHandler.init();
+		CreativeTab.registerItemGroups();
 
 	}
 }
