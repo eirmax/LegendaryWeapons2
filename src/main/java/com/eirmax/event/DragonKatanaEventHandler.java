@@ -10,6 +10,7 @@ public class DragonKatanaEventHandler {
 
     public static void init() {
         ServerTickEvents.END_SERVER_TICK.register(DragonKatanaEventHandler::onServerTick);
+        ServerTickEvents.START_WORLD_TICK.register(DragonKatana::handleLaunchedPlayers);
     }
 
     public static void onServerTick(MinecraftServer server) {
