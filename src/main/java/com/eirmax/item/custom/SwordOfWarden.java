@@ -32,7 +32,7 @@ public class SwordOfWarden extends SwordItem{
 
     private static final int COOLDOWN_TICKS = 450;
     public static final int ATTACK_DAMAGE = 9;
-    public static final float ATTACK_SPEED = -2.7f;
+    public static final float ATTACK_SPEED = -2.6f;
     public static final int ENCHANTABILITY = 15;
     public static final int SONIC_RANGE = 100;
     public static final int GLOW_RADIUS = 200;

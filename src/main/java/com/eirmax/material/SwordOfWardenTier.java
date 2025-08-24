@@ -17,7 +17,7 @@ public class SwordOfWardenTier implements ToolMaterial {
 
     @Override
     public float getAttackDamage() {
-        return 9.5f;
+        return 8.0f;
     }
 
     @Override
