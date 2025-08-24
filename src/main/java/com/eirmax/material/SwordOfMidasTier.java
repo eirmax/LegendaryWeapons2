@@ -26,7 +26,7 @@ public class SwordOfMidasTier implements ToolMaterial {
 
     @Override
     public int getEnchantability() {
-        return 22;
+        return 0;
     }
 
     @Override

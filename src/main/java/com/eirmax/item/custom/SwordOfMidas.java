@@ -161,8 +161,10 @@ public class SwordOfMidas extends SwordItem {
             tooltip.add(Text.literal("Количество убийств: " + kills).formatted(Formatting.DARK_RED));
         }
 
-        tooltip.add(Text.literal("Выкован поднебесным кузнецом по приказу царя Мидаса").formatted(Formatting.GRAY));
-        tooltip.add(Text.literal("При убийстве игрока мечом увеличивает его остроту на 0.5").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal("Выкован поднебесным кузнецом по приказу царя Мидаса").formatted(Formatting.YELLOW));
+        tooltip.add(Text.literal("При убийстве игрока мечом увеличивает его остроту на 0.5").formatted(Formatting.RED));
+        tooltip.add(Text.literal("При использовании: поджигает всех игроков в радиусе 20 блоков ").formatted(Formatting.YELLOW));
+        
     }
 
 
