@@ -29,7 +29,7 @@ import java.util.*;
 public class DragonKatana extends SwordItem {
 
     private static final int COOLDOWN_TICKS = 150;
-    private static final double MAX_TELEPORT_DISTANCE = 300.0;
+    private static final double MAX_TELEPORT_DISTANCE = 100.0;
     private static final int SPEED_EFFECT_DURATION = 20;
     private static final int SPEED_EFFECT_AMPLIFIER = 1;
     private static final double LAUNCH_CHANCE = 0.1;
